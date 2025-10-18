@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submitted Projects Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+
+        .search-container {
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .project-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .project-details {
+            margin-bottom: 15px;
+        }
+
+        .project-members, .project-github, .project-date {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .project-members i, .project-github i, .project-date i {
+            margin-right: 10px;
+            color: #3498db;
+            width: 16px;
+            text-align: center;
+        }
+
+        .project-members span, .project-github span, .project-date span {
+            flex: 1;
+        }
+
+        .github-link {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .github-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Submitted Projects Dashboard</h1>
+            <p class="subtitle">View all project submissions by users</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search projects or emails...">
+        </div>
+
+        <div class="projects-container">
+            <!-- Project cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Project data
+        const projects = [
+            {
+                name: "AI Safety Mentor",
+                members: ["anubhab@gmail.com", "bob@gmail.com"],
+                githubLink: "https://github.com/teamA/a-safety-mentor",
+                submittedOn: "2025-10-15"
+            },
+            {
+                name: "Digital Twin of School",
+                members: ["GOAT@gmail.com", "ritu@gmail.com"],
+                githubLink: "https://github.com/teamB/digital-twin",
+                submittedOn: "2025-10-14"
+            },
+            {
+                name: "Wearable Safety Band",
+                members: ["pbm@gmail.com", "aman@gmail.com"],
+                githubLink: "https://github.com/teamC/safety-band",
+                submittedOn: "2025-10-13"
+            },
+            {
+                name: "Smart Evacuation App",
+                members: ["mina@gmail.com", "arjun@gmail.com"],
+                githubLink: "https://github.com/teamD/smart-evacuation",
+                submittedOn: "2025-10-12"
+            }
+        ];
+
+        // Function to render projects
+        function renderProjects(projectsToRender) {
+            const container = document.querySelector('.projects-container');
+            container.innerHTML = '';
+
+            if (projectsToRender.length === 0) {
+                container.innerHTML = '<div class="no-results">No projects found matching your search.</div>';
+                return;
+            }
+
+            projectsToRender.forEach((project, index) => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card';
+                
+                projectCard.innerHTML = `
+                    <div class="project-number">${index + 1}</div>
+                    <div class="project-name">${project.name}</div>
+                    <div class="project-details">
+                        <div class="project-members">
+                            <i>👥</i>
+                            <span>${project.members.join(', ')}</span>
+                        </div>
+                        <div class="project-github">
+                            <i>🔗</i>
+                            <span><a href="${project.githubLink}" class="github-link" target="_blank">${project.githubLink}</a></span>
+                        </div>
+                        <div class="project-date">
+                            <i>📅</i>
+                            <span>Submitted On ${project.submittedOn}</span>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(projectCard);
+            });
+        }
+
+        // Initial render
+        renderProjects(projects);
+
+        // Search functionality
+        const searchBox = document.querySelector('.search-box');
+        searchBox.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            if (searchTerm.trim() === '') {
+                renderProjects(projects);
+                return;
+            }
+            
+            const filteredProjects = projects.filter(project => {
+                return (
+                    project.name.toLowerCase().includes(searchTerm) ||
+                    project.members.some(member => member.toLowerCase().includes(searchTerm)) ||
+                    project.githubLink.toLowerCase().includes(searchTerm)
+                );
+            });
+            
+            renderProjects(filteredProjects);
+        });
+    </script>
+</body>
+</html>
